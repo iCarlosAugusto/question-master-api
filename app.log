@@ -1,0 +1,296 @@
+> Task :checkKotlinGradlePluginConfigurationErrors
+> Task :processResources UP-TO-DATE
+> Task :compileKotlin
+> Task :compileJava NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.9)
+
+2025-09-06T19:14:51.444-03:00  INFO 23416 --- [gamified-question-api] [           main] c.questionmaster.api.ApiApplicationKt    : Starting ApiApplicationKt using Java 21.0.6 with PID 23416 (C:\Users\Carlos\Desktop\D3V\Projetos\perguntados\api\build\classes\kotlin\main started by Carlos in C:\Users\Carlos\Desktop\D3V\Projetos\perguntados\api)
+2025-09-06T19:14:51.447-03:00 DEBUG 23416 --- [gamified-question-api] [           main] c.questionmaster.api.ApiApplicationKt    : Running with Spring Boot v3.4.9, Spring v6.2.10
+2025-09-06T19:14:51.447-03:00  INFO 23416 --- [gamified-question-api] [           main] c.questionmaster.api.ApiApplicationKt    : The following 1 profile is active: "dev"
+2025-09-06T19:14:52.723-03:00  INFO 23416 --- [gamified-question-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-06T19:14:52.858-03:00  INFO 23416 --- [gamified-question-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 120 ms. Found 6 JPA repository interfaces.
+2025-09-06T19:14:53.735-03:00  INFO 23416 --- [gamified-question-api] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-06T19:14:53.758-03:00  INFO 23416 --- [gamified-question-api] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-06T19:14:53.758-03:00  INFO 23416 --- [gamified-question-api] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.44]
+2025-09-06T19:14:53.844-03:00  INFO 23416 --- [gamified-question-api] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-06T19:14:53.846-03:00  INFO 23416 --- [gamified-question-api] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2341 ms
+2025-09-06T19:14:54.224-03:00  INFO 23416 --- [gamified-question-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-06T19:14:54.496-03:00  INFO 23416 --- [gamified-question-api] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@ff0e6d4
+2025-09-06T19:14:54.498-03:00  INFO 23416 --- [gamified-question-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-06T19:14:54.537-03:00  INFO 23416 --- [gamified-question-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/questionmaster_dev (PostgreSQL 15.14)
+2025-09-06T19:14:54.640-03:00  INFO 23416 --- [gamified-question-api] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.055s)
+2025-09-06T19:14:54.672-03:00  INFO 23416 --- [gamified-question-api] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 7
+2025-09-06T19:14:54.676-03:00  INFO 23416 --- [gamified-question-api] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-09-06T19:14:54.816-03:00  INFO 23416 --- [gamified-question-api] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-06T19:14:54.904-03:00  INFO 23416 --- [gamified-question-api] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.26.Final
+2025-09-06T19:14:54.955-03:00  INFO 23416 --- [gamified-question-api] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-06T19:14:55.427-03:00  INFO 23416 --- [gamified-question-api] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-06T19:14:55.522-03:00  WARN 23416 --- [gamified-question-api] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-06T19:14:55.543-03:00  INFO 23416 --- [gamified-question-api] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.14
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-06T19:14:57.219-03:00  INFO 23416 --- [gamified-question-api] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-06T19:14:57.246-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    set client_min_messages = WARNING
+2025-09-06T19:14:57.252-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists alternatives 
+       drop constraint if exists FKbwnruspjotf0h720d0mnk21h8
+2025-09-06T19:14:57.261-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists answers 
+       drop constraint if exists FK52h399bv9hoyyop4ady9e51it
+2025-09-06T19:14:57.267-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists answers 
+       drop constraint if exists FK3erw1a3t0r78st8ty27x6v3g1
+2025-09-06T19:14:57.272-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists answers 
+       drop constraint if exists FKb7gbg7qw6v5a46cldi5x84nsw
+2025-09-06T19:14:57.278-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists question_topics 
+       drop constraint if exists FK4kxks7j2dok7ff0wx7e7491nm
+2025-09-06T19:14:57.285-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists question_topics 
+       drop constraint if exists FKe4citvtrhhs7j5i6t6r72b1t2
+2025-09-06T19:14:57.290-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists questions 
+       drop constraint if exists FKaaom2cvvnpr9wwb4g1ctduv9v
+2025-09-06T19:14:57.297-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists questions 
+       drop constraint if exists FKo0h0rn8bxifrxmq1d8ipiyqv5
+2025-09-06T19:14:57.303-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists topics 
+       drop constraint if exists FK957k7bkcrurt9uen2242medmq
+2025-09-06T19:14:57.308-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists alternatives cascade
+2025-09-06T19:14:57.318-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists answers cascade
+2025-09-06T19:14:57.324-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists profiles cascade
+2025-09-06T19:14:57.331-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists question_topics cascade
+2025-09-06T19:14:57.337-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists questions cascade
+2025-09-06T19:14:57.345-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists subjects cascade
+2025-09-06T19:14:57.353-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists topics cascade
+2025-09-06T19:14:57.366-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    create table alternatives (
+        is_correct boolean not null,
+        ord smallint not null,
+        created_at timestamp(6) not null,
+        id uuid not null,
+        question_id uuid not null,
+        body TEXT not null,
+        primary key (id),
+        unique (question_id, ord)
+    )
+2025-09-06T19:14:57.393-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    create table answers (
+        is_correct boolean not null,
+        answered_at timestamp(6) not null,
+        alternative_id uuid not null,
+        id uuid not null,
+        question_id uuid not null,
+        user_id uuid not null,
+        primary key (id)
+    )
+2025-09-06T19:14:57.403-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    create table profiles (
+        created_at timestamp(6) not null,
+        id uuid not null,
+        display_name varchar(255),
+        role varchar(255) not null check (role in ('USER','ADMIN')),
+        primary key (id)
+    )
+2025-09-06T19:14:57.420-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    create table question_topics (
+        topic_id bigint not null,
+        question_id uuid not null,
+        primary key (topic_id, question_id)
+    )
+2025-09-06T19:14:57.429-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    create table questions (
+        is_active boolean not null,
+        year smallint,
+        created_at timestamp(6) not null,
+        subject_id bigint not null,
+        updated_at timestamp(6) not null,
+        created_by uuid,
+        id uuid not null,
+        qtype varchar(255) not null check (qtype in ('MULTIPLE_CHOICE','TRUE_FALSE')),
+        statement TEXT not null,
+        primary key (id)
+    )
+2025-09-06T19:14:57.451-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    create table subjects (
+        created_at timestamp(6) not null,
+        id bigint generated by default as identity,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+2025-09-06T19:14:57.466-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    create table topics (
+        created_at timestamp(6) not null,
+        id bigint generated by default as identity,
+        subject_id bigint not null,
+        name varchar(255) not null,
+        primary key (id),
+        unique (subject_id, name)
+    )
+2025-09-06T19:14:57.482-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists alternatives 
+       add constraint FKbwnruspjotf0h720d0mnk21h8 
+       foreign key (question_id) 
+       references questions
+2025-09-06T19:14:57.489-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists answers 
+       add constraint FK52h399bv9hoyyop4ady9e51it 
+       foreign key (alternative_id) 
+       references alternatives
+2025-09-06T19:14:57.494-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists answers 
+       add constraint FK3erw1a3t0r78st8ty27x6v3g1 
+       foreign key (question_id) 
+       references questions
+2025-09-06T19:14:57.499-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists answers 
+       add constraint FKb7gbg7qw6v5a46cldi5x84nsw 
+       foreign key (user_id) 
+       references profiles
+2025-09-06T19:14:57.504-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists question_topics 
+       add constraint FK4kxks7j2dok7ff0wx7e7491nm 
+       foreign key (topic_id) 
+       references topics
+2025-09-06T19:14:57.510-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists question_topics 
+       add constraint FKe4citvtrhhs7j5i6t6r72b1t2 
+       foreign key (question_id) 
+       references questions
+2025-09-06T19:14:57.514-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists questions 
+       add constraint FKaaom2cvvnpr9wwb4g1ctduv9v 
+       foreign key (created_by) 
+       references profiles
+2025-09-06T19:14:57.518-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists questions 
+       add constraint FKo0h0rn8bxifrxmq1d8ipiyqv5 
+       foreign key (subject_id) 
+       references subjects
+2025-09-06T19:14:57.525-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists topics 
+       add constraint FK957k7bkcrurt9uen2242medmq 
+       foreign key (subject_id) 
+       references subjects
+2025-09-06T19:14:57.534-03:00  INFO 23416 --- [gamified-question-api] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T19:14:58.347-03:00 DEBUG 23416 --- [gamified-question-api] [           main] c.q.a.security.JwtAuthenticationFilter   : Filter 'jwtAuthenticationFilter' configured for use
+2025-09-06T19:14:58.507-03:00  INFO 23416 --- [gamified-question-api] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-06T19:15:07.533-03:00  WARN 23416 --- [gamified-question-api] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-06T19:15:07.587-03:00  INFO 23416 --- [gamified-question-api] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-09-06T19:15:08.217-03:00 DEBUG 23416 --- [gamified-question-api] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-09-06T19:15:08.743-03:00  WARN 23416 --- [gamified-question-api] [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-09-06T19:15:08.747-03:00  INFO 23416 --- [gamified-question-api] [           main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T19:15:08.748-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    set client_min_messages = WARNING
+2025-09-06T19:15:08.752-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists alternatives 
+       drop constraint if exists FKbwnruspjotf0h720d0mnk21h8
+2025-09-06T19:15:08.757-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists answers 
+       drop constraint if exists FK52h399bv9hoyyop4ady9e51it
+2025-09-06T19:15:08.762-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists answers 
+       drop constraint if exists FK3erw1a3t0r78st8ty27x6v3g1
+2025-09-06T19:15:08.768-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists answers 
+       drop constraint if exists FKb7gbg7qw6v5a46cldi5x84nsw
+2025-09-06T19:15:08.772-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists question_topics 
+       drop constraint if exists FK4kxks7j2dok7ff0wx7e7491nm
+2025-09-06T19:15:08.778-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists question_topics 
+       drop constraint if exists FKe4citvtrhhs7j5i6t6r72b1t2
+2025-09-06T19:15:08.785-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists questions 
+       drop constraint if exists FKaaom2cvvnpr9wwb4g1ctduv9v
+2025-09-06T19:15:08.791-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists questions 
+       drop constraint if exists FKo0h0rn8bxifrxmq1d8ipiyqv5
+2025-09-06T19:15:08.796-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    alter table if exists topics 
+       drop constraint if exists FK957k7bkcrurt9uen2242medmq
+2025-09-06T19:15:08.802-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists alternatives cascade
+2025-09-06T19:15:08.808-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists answers cascade
+2025-09-06T19:15:08.817-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists profiles cascade
+2025-09-06T19:15:08.825-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists question_topics cascade
+2025-09-06T19:15:08.830-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists questions cascade
+2025-09-06T19:15:08.836-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists subjects cascade
+2025-09-06T19:15:08.842-03:00 DEBUG 23416 --- [gamified-question-api] [           main] org.hibernate.SQL                        : 
+    drop table if exists topics cascade
+2025-09-06T19:15:08.852-03:00  INFO 23416 --- [gamified-question-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-06T19:15:08.856-03:00  INFO 23416 --- [gamified-question-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-06T19:15:08.875-03:00  INFO 23416 --- [gamified-question-api] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-09-06T19:15:08.902-03:00 ERROR 23416 --- [gamified-question-api] [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+
+> Task :bootRun FAILED
+
+[Incubating] Problems report is available at: file:///C:/Users/Carlos/Desktop/D3V/Projetos/perguntados/api/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':bootRun'.
+> Process 'command 'C:\Program Files\Java\jdk-21\bin\java.exe'' finished with non-zero exit value 1
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 28s
+5 actionable tasks: 4 executed, 1 up-to-date

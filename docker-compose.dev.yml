@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: questionmaster-postgres-dev
+    environment:
+      POSTGRES_DB: questionmaster_dev
+      POSTGRES_USER: questionmaster
+      POSTGRES_PASSWORD: questionmaster
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - questionmaster-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U questionmaster -d questionmaster_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_dev_data:
+    driver: local
+
+networks:
+  questionmaster-network:
+    driver: bridge

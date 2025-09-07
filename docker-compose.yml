@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: questionmaster-postgres
+    environment:
+      POSTGRES_DB: questionmaster-dev
+      POSTGRES_USER: questionmaster
+      POSTGRES_PASSWORD: questionmaster
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - questionmaster-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U questionmaster -d questionmaster"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: questionmaster-api
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DATABASE_URL: jdbc:postgresql://postgres:5432/questionmaster-dev
+      DATABASE_USERNAME: questionmaster
+      DATABASE_PASSWORD: questionmaster
+      JWT_SECRET: myVerySecretKeyThatIsLongEnoughForHmacSha256AlgorithmAndShouldBeChangedInProduction
+      JWT_EXPIRATION: 86400000
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - questionmaster-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  questionmaster-network:
+    driver: bridge
