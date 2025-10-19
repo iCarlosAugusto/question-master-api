@@ -1,0 +1,18 @@
+meta {
+  name: Create Account - Admin
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{url}}/auth/admin
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "carlos@admin.com",
+    "password": "123456"
+  }
+}

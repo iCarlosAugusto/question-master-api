@@ -5,9 +5,9 @@ services:
     image: postgres:15-alpine
     container_name: questionmaster-postgres
     environment:
-      POSTGRES_DB: questionmaster-dev
-      POSTGRES_USER: questionmaster
-      POSTGRES_PASSWORD: questionmaster
+      POSTGRES_DB: jdbc:postgresql://db.wxzoeompgaajxwfnxbos.supabase.co:5432/postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     volumes:

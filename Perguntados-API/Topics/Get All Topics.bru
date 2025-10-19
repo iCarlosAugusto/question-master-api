@@ -1,0 +1,22 @@
+meta {
+  name: Get All Topics
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{url}}/topics
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxZTU3MTNiMy1mYjkwLTQyZDEtODQ3ZC0yODJkN2ZjNjNkNmQiLCJyb2xlIjoiQURNSU4iLCJkaXNwbGF5TmFtZSI6ImNhcmxvcyIsImlhdCI6MTc2MDkwOTI0NiwiZXhwIjoxNzYwOTk1NjQ2fQ.Z13rJxrIk5M5Mtpkqc65Ol_ZAvlE33JITpncNC6AAfA
+}
+
+body:json {
+  {
+    "name": "Algebra",
+    "subjectId": 1
+  }
+}

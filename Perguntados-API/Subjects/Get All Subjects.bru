@@ -1,0 +1,21 @@
+meta {
+  name: Get All Subjects
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{url}}/subjects
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxZTU3MTNiMy1mYjkwLTQyZDEtODQ3ZC0yODJkN2ZjNjNkNmQiLCJyb2xlIjoiQURNSU4iLCJkaXNwbGF5TmFtZSI6ImNhcmxvcyIsImlhdCI6MTc2MDkwOTI0NiwiZXhwIjoxNzYwOTk1NjQ2fQ.Z13rJxrIk5M5Mtpkqc65Ol_ZAvlE33JITpncNC6AAfA
+}
+
+body:json {
+  {
+    "name": "Matemática"
+  }
+}

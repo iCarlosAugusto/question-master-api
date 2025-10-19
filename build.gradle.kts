@@ -4,6 +4,7 @@ plugins {
 	id("org.springframework.boot") version "3.4.9"
 	id("io.spring.dependency-management") version "1.1.7"
 	kotlin("plugin.jpa") version "1.9.25"
+	id("org.flywaydb.flyway") version "10.20.1"
 }
 
 group = "com.questionmaster"
@@ -62,4 +63,11 @@ allOpen {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+flyway {
+	url = "jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:6543/postgres?user=postgres.wxzoeompgaajxwfnxbos&password=LeuY2TDZ6zreGbPp"
+	user = "postgres"
+	password = "LeuY2TDZ6zreGbPp"
+	locations = arrayOf("classpath:db/migration")
 }
