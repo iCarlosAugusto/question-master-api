@@ -1,12 +1,15 @@
 package com.questionmaster.api.controller
 
+import com.questionmaster.api.domain.dto.request.AnswerQuestionRequest
 import com.questionmaster.api.domain.dto.request.CreateQuestionRequest
 import com.questionmaster.api.domain.dto.request.UpdateQuestionRequest
+import com.questionmaster.api.domain.dto.response.AnswerResponse
 import com.questionmaster.api.domain.dto.response.PagedResponse
 import com.questionmaster.api.domain.dto.response.QuestionResponse
 import com.questionmaster.api.domain.enums.QuestionType
 import com.questionmaster.api.security.CurrentUser
 import com.questionmaster.api.security.CustomUserDetails
+import com.questionmaster.api.service.AnswerService
 import com.questionmaster.api.service.QuestionService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
@@ -22,7 +25,8 @@ import java.util.*
 @RequestMapping("/api/questions")
 @Tag(name = "Questions", description = "Question management endpoints")
 class QuestionController(
-    private val questionService: QuestionService
+    private val questionService: QuestionService,
+    private val answerService: AnswerService
 ) {
 
     @GetMapping
@@ -93,5 +97,17 @@ class QuestionController(
     fun deleteQuestion(@PathVariable id: UUID): ResponseEntity<Void> {
         questionService.deleteQuestion(id)
         return ResponseEntity.noContent().build()
+    }
+
+    @PostMapping("/{questionId}/answer")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @Operation(summary = "Answer a question", description = "Submit an answer to a question")
+    fun answerQuestion(
+        @PathVariable questionId: UUID,
+        @Valid @RequestBody request: AnswerQuestionRequest,
+        @CurrentUser userDetails: CustomUserDetails
+    ): ResponseEntity<AnswerResponse> {
+        val answer = answerService.answerQuestion(questionId, userDetails.getId(), request)
+        return ResponseEntity.status(HttpStatus.CREATED).body(answer)
     }
 }

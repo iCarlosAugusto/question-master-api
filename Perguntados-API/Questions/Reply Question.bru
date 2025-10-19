@@ -1,0 +1,21 @@
+meta {
+  name: Reply Question
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{url}}/questions/2e051f35-0243-4bfa-b4b3-7b82ffbc40fd/answer
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxZTU3MTNiMy1mYjkwLTQyZDEtODQ3ZC0yODJkN2ZjNjNkNmQiLCJyb2xlIjoiQURNSU4iLCJkaXNwbGF5TmFtZSI6ImNhcmxvcyIsImlhdCI6MTc2MDkwOTI0NiwiZXhwIjoxNzYwOTk1NjQ2fQ.Z13rJxrIk5M5Mtpkqc65Ol_ZAvlE33JITpncNC6AAfA
+}
+
+body:json {
+  {
+    "alternativeId": "1177d3d7-f60c-4b2a-ae44-275b310b5b22"
+  }
+}
