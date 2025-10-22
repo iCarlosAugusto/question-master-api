@@ -19,17 +19,17 @@ interface QuestionRepository : JpaRepository<Question, UUID> {
         LEFT JOIN FETCH q.topics 
         LEFT JOIN FETCH q.alternatives a
         WHERE q.isActive = true
-        AND (:subjectId IS NULL OR q.subject.id = :subjectId)
-        AND (:year IS NULL OR q.year = :year)
+        AND (:#{#subjectIds.size()} = 0 OR q.subject.id IN :subjectIds)
+        AND (:#{#years.size()} = 0 OR q.year IN :years)
         AND (:questionType IS NULL OR q.questionType = :questionType)
-        AND (:topicId IS NULL OR EXISTS (SELECT 1 FROM q.topics t WHERE t.id = :topicId))
+        AND (:#{#topicIds.size()} = 0 OR EXISTS (SELECT 1 FROM q.topics t WHERE t.id IN :topicIds))
         ORDER BY q.createdAt DESC
     """)
     fun findQuestionsWithFilters(
-        @Param("subjectId") subjectId: Long?,
-        @Param("year") year: Short?,
+        @Param("subjectIds") subjectIds: List<Long>,
+        @Param("years") years: List<Short>,
         @Param("questionType") questionType: QuestionType?,
-        @Param("topicId") topicId: Long?,
+        @Param("topicIds") topicIds: List<Long>,
         pageable: Pageable
     ): Page<Question>
     

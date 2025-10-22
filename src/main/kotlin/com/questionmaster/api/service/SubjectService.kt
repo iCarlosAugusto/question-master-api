@@ -2,6 +2,9 @@ package com.questionmaster.api.service
 
 import com.questionmaster.api.domain.dto.request.CreateSubjectRequest
 import com.questionmaster.api.domain.dto.response.SubjectResponse
+import com.questionmaster.api.domain.dto.response.SubjectWithTopicsResponse
+import com.questionmaster.api.domain.dto.response.SubjectsWithTopicsWrapper
+import com.questionmaster.api.domain.dto.response.TopicSummaryResponse
 import com.questionmaster.api.domain.entity.Subject
 import com.questionmaster.api.domain.repository.SubjectRepository
 import com.questionmaster.api.exception.BusinessException
@@ -30,6 +33,25 @@ class SubjectService(
     fun getAllSubjects(): List<SubjectResponse> {
         return subjectRepository.findAll()
             .map { mapToResponse(it) }
+    }
+
+    @Transactional(readOnly = true)
+    fun getAllSubjectsWithTopics(): SubjectsWithTopicsWrapper {
+        val subjects = subjectRepository.findAll()
+            .map { subject ->
+                SubjectWithTopicsResponse(
+                    id = subject.id,
+                    name = subject.name,
+                    topics = subject.topics.map { topic ->
+                        TopicSummaryResponse(
+                            id = topic.id,
+                            name = topic.name
+                        )
+                    }
+                )
+            }
+        
+        return SubjectsWithTopicsWrapper(subjects = subjects)
     }
 
     @Transactional(readOnly = true)

@@ -14,13 +14,40 @@ class UserService(
     private val userRepository: UserRepository
 ) {
 
-    fun createUser(id: UUID, displayName: String? = null, role: AppRole = AppRole.USER): User {
+    fun createUser(
+        id: UUID, 
+        displayName: String? = null, 
+        role: AppRole = AppRole.USER,
+        email: String? = null
+    ): User {
         val user = User(
             id = id,
             displayName = displayName,
-            role = role
+            role = role,
+            email = email
         )
         return userRepository.save(user)
+    }
+    
+    /**
+     * Gets or creates a user by ID. 
+     * This is useful for Supabase integration where the user might already exist in auth.users
+     * but not yet in our profiles table (before trigger execution).
+     */
+    fun getOrCreateUser(
+        id: UUID,
+        email: String,
+        displayName: String? = null,
+        role: AppRole = AppRole.USER
+    ): User {
+        return userRepository.findById(id).orElseGet {
+            createUser(
+                id = id,
+                email = email,
+                displayName = displayName ?: email.substringBefore("@"),
+                role = role
+            )
+        }
     }
 
     @Transactional(readOnly = true)
@@ -32,6 +59,16 @@ class UserService(
     @Transactional(readOnly = true)
     fun getUserByDisplayName(displayName: String): User? {
         return userRepository.findByDisplayName(displayName)
+    }
+    
+    @Transactional(readOnly = true)
+    fun getUserByEmail(email: String): User? {
+        return userRepository.findByEmail(email)
+    }
+    
+    @Transactional(readOnly = true)
+    fun existsByEmail(email: String): Boolean {
+        return userRepository.existsByEmail(email)
     }
 
     fun updateUserRole(id: UUID, role: AppRole): User {

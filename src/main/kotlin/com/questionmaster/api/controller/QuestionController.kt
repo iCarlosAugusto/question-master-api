@@ -30,14 +30,17 @@ class QuestionController(
 ) {
 
     @GetMapping
-    @Operation(summary = "Get questions with filters", description = "Retrieve questions with optional filters and pagination")
+    @Operation(
+        summary = "Get questions with filters", 
+        description = "Retrieve questions with optional filters and pagination. Supports multiple subjectIds, topicIds, and years."
+    )
     fun getQuestions(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "20") size: Int,
-        @RequestParam(required = false) subjectId: Long?,
-        @RequestParam(required = false) year: Short?,
+        @RequestParam(required = false) subjectIds: List<Long>?,
+        @RequestParam(required = false) years: List<Short>?,
         @RequestParam(required = false) questionType: QuestionType?,
-        @RequestParam(required = false) topicId: Long?,
+        @RequestParam(required = false) topicIds: List<Long>?,
         @RequestParam(required = false) answerStatus: String?,
         @CurrentUser userDetails: CustomUserDetails?
     ): ResponseEntity<PagedResponse<QuestionResponse>> {
@@ -45,10 +48,10 @@ class QuestionController(
         val questions = questionService.getQuestions(
             page = page,
             size = size,
-            subjectId = subjectId,
-            year = year,
+            subjectIds = subjectIds ?: emptyList(),
+            years = years ?: emptyList(),
             questionType = questionType,
-            topicId = topicId,
+            topicIds = topicIds ?: emptyList(),
             userId = userId,
             answerStatus = answerStatus
         )
@@ -100,7 +103,6 @@ class QuestionController(
     }
 
     @PostMapping("/{questionId}/answer")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @Operation(summary = "Answer a question", description = "Submit an answer to a question")
     fun answerQuestion(
         @PathVariable questionId: UUID,

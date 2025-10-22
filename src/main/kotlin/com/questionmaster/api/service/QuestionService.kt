@@ -77,10 +77,10 @@ class QuestionService(
     fun getQuestions(
         page: Int = 0,
         size: Int = 20,
-        subjectId: Long? = null,
-        year: Short? = null,
+        subjectIds: List<Long> = emptyList(),
+        years: List<Short> = emptyList(),
         questionType: QuestionType? = null,
-        topicId: Long? = null,
+        topicIds: List<Long> = emptyList(),
         userId: UUID? = null,
         answerStatus: String? = null
     ): PagedResponse<QuestionResponse> {
@@ -89,7 +89,7 @@ class QuestionService(
         val questionsPage = if (userId != null && answerStatus != null) {
             questionRepository.findQuestionsWithUserStatus(userId, answerStatus, pageable)
         } else {
-            questionRepository.findQuestionsWithFilters(subjectId, year, questionType, topicId, pageable)
+            questionRepository.findQuestionsWithFilters(subjectIds, years, questionType, topicIds, pageable)
         }
 
         val questionResponses = questionsPage.content.map { question ->

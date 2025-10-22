@@ -2,6 +2,7 @@ package com.questionmaster.api.controller
 
 import com.questionmaster.api.domain.dto.request.CreateSubjectRequest
 import com.questionmaster.api.domain.dto.response.SubjectResponse
+import com.questionmaster.api.domain.dto.response.SubjectsWithTopicsWrapper
 import com.questionmaster.api.service.SubjectService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
@@ -24,6 +25,16 @@ class SubjectController(
     fun getAllSubjects(): ResponseEntity<List<SubjectResponse>> {
         val subjects = subjectService.getAllSubjects()
         return ResponseEntity.ok(subjects)
+    }
+
+    @GetMapping("/with-topics")
+    @Operation(
+        summary = "Get all subjects with topics", 
+        description = "Retrieve all subjects with their related topics"
+    )
+    fun getAllSubjectsWithTopics(): ResponseEntity<SubjectsWithTopicsWrapper> {
+        val result = subjectService.getAllSubjectsWithTopics()
+        return ResponseEntity.ok(result)
     }
 
     @GetMapping("/{id}")

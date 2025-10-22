@@ -18,28 +18,40 @@ class User(
     @Column(name = "display_name")
     val displayName: String? = null,
     
+    @Column(name = "email")
+    val email: String? = null,
+    
     @Column(name = "created_at", nullable = false)
-    val createdAt: LocalDateTime = LocalDateTime.now()
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+    
+    @Column(name = "updated_at")
+    val updatedAt: LocalDateTime = LocalDateTime.now()
 ) {
     // JPA requires a no-arg constructor
     constructor() : this(
         id = UUID.randomUUID(),
         role = AppRole.USER,
         displayName = null,
-        createdAt = LocalDateTime.now()
+        email = null,
+        createdAt = LocalDateTime.now(),
+        updatedAt = LocalDateTime.now()
     )
 
     fun copy(
         id: UUID = this.id,
         role: AppRole = this.role,
         displayName: String? = this.displayName,
-        createdAt: LocalDateTime = this.createdAt
+        email: String? = this.email,
+        createdAt: LocalDateTime = this.createdAt,
+        updatedAt: LocalDateTime = this.updatedAt
     ): User {
         return User(
             id = id,
             role = role,
             displayName = displayName,
-            createdAt = createdAt
+            email = email,
+            createdAt = createdAt,
+            updatedAt = updatedAt
         )
     }
 }
