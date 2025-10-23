@@ -18,6 +18,10 @@ class Question(
     @JoinColumn(name = "subject_id", nullable = false)
     val subject: Subject,
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exam_id")
+    val exam: Exam? = null,
+    
     val year: Short? = null,
     
     @Enumerated(EnumType.STRING)
@@ -62,6 +66,7 @@ class Question(
         id: UUID = this.id,
         statement: String = this.statement,
         subject: Subject = this.subject,
+        exam: Exam? = this.exam,
         year: Short? = this.year,
         questionType: QuestionType = this.questionType,
         isActive: Boolean = this.isActive,
@@ -76,6 +81,7 @@ class Question(
             id = id,
             statement = statement,
             subject = subject,
+            exam = exam,
             year = year,
             questionType = questionType,
             isActive = isActive,

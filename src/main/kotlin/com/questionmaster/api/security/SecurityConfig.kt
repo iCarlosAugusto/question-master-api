@@ -34,7 +34,8 @@ class SecurityConfig(
                 authz
                     // Public endpoints
                     .requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/questions/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/exams").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/exams/*/questions").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/subjects/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/topics/**").permitAll()
                     
@@ -51,6 +52,9 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.POST, "/api/topics/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "/api/topics/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "/api/topics/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/exams/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/exams/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/exams/**").hasRole("ADMIN")
 
                     // User and Admin endpoints
                     .requestMatchers("/api/answers/**").hasAnyRole("USER", "ADMIN")
@@ -90,7 +94,8 @@ class SecurityConfig(
             "Content-Type",
             "Accept",
             "Origin",
-            "X-Requested-With"
+            "X-Requested-With",
+            "X-Exam-Id"
         )
         
         // Allow credentials (cookies, authorization headers)

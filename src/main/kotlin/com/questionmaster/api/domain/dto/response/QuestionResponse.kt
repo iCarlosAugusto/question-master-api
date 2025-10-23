@@ -9,6 +9,7 @@ data class QuestionResponse(
     val statement: String,
     val subject: SubjectResponse,
     val topics: List<TopicResponse>,
+    val exam: ExamSummaryResponse? = null,
     val year: Short? = null,
     val questionType: QuestionType,
     val isActive: Boolean,

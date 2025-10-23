@@ -66,8 +66,8 @@ tasks.withType<Test> {
 }
 
 flyway {
-	url = "jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:6543/postgres?user=postgres.wxzoeompgaajxwfnxbos&password=LeuY2TDZ6zreGbPp"
-	user = "postgres"
+	url = "jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:5432/postgres?user=postgres.swzkcdgnahprrfzpfaoi&password=LeuY2TDZ6zreGbPp"
+	user = "postgres.swzkcdgnahprrfzpfaoi"
 	password = "LeuY2TDZ6zreGbPp"
 	locations = arrayOf("classpath:db/migration")
 }

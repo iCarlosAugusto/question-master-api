@@ -13,6 +13,9 @@ data class UpdateQuestionRequest(
     @field:Positive(message = "Subject ID must be positive")
     val subjectId: Long,
     
+    @field:Positive(message = "Exam ID must be positive")
+    val examId: Long? = null,
+    
     @field:Min(value = 1900, message = "Year must be at least 1900")
     @field:Max(value = 2100, message = "Year must not exceed 2100")
     val year: Short? = null,

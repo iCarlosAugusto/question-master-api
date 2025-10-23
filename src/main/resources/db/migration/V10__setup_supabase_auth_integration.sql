@@ -172,6 +172,14 @@ CREATE TRIGGER on_auth_user_deleted
 
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies to avoid conflicts
+-- DROP POLICY IF EXISTS "Users can view own profile" ON public.profiles;
+-- DROP POLICY IF EXISTS "Users can update own profile" ON public.profiles;
+-- DROP POLICY IF EXISTS "Service can insert profiles" ON public.profiles;
+-- DROP POLICY IF EXISTS "Admins can view all profiles" ON public.profiles;
+-- DROP POLICY IF EXISTS "Admins can update any profile" ON public.profiles;
+-- DROP POLICY IF EXISTS "Admins can delete profiles" ON public.profiles;
+
 -- Policy: Users can view their own profile
 CREATE POLICY "Users can view own profile"
   ON public.profiles

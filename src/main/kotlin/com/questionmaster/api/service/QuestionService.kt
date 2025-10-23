@@ -24,7 +24,8 @@ class QuestionService(
     private val topicRepository: TopicRepository,
     private val alternativeRepository: AlternativeRepository,
     private val answerRepository: AnswerRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val examRepository: ExamRepository
 ) {
 
     fun createQuestion(request: CreateQuestionRequest, createdById: UUID): QuestionResponse {
@@ -47,9 +48,15 @@ class QuestionService(
         val createdBy = userRepository.findById(createdById)
             .orElseThrow { ResourceNotFoundException("User not found with id: $createdById") }
 
+        val exam = request.examId?.let { examId ->
+            examRepository.findById(examId)
+                .orElseThrow { ResourceNotFoundException("Exam not found with id: $examId") }
+        }
+
         val question = Question(
             statement = request.statement,
             subject = subject,
+            exam = exam,
             year = request.year,
             questionType = request.questionType,
             createdBy = createdBy
@@ -75,6 +82,7 @@ class QuestionService(
 
     @Transactional(readOnly = true)
     fun getQuestions(
+        examSlug: String,
         page: Int = 0,
         size: Int = 20,
         subjectIds: List<Long> = emptyList(),
@@ -85,11 +93,15 @@ class QuestionService(
         answerStatus: String? = null
     ): PagedResponse<QuestionResponse> {
         val pageable: Pageable = PageRequest.of(page, size)
-        
+        val exam = examRepository.findBySlug(examSlug).orElseThrow{
+            ResourceNotFoundException("Exam not found with slug: $examSlug")
+        }
+        val examId = exam.id;
+
         val questionsPage = if (userId != null && answerStatus != null) {
-            questionRepository.findQuestionsWithUserStatus(userId, answerStatus, pageable)
+            questionRepository.findQuestionsWithUserStatus(examId, userId, answerStatus, pageable)
         } else {
-            questionRepository.findQuestionsWithFilters(subjectIds, years, questionType, topicIds, pageable)
+            questionRepository.findQuestionsWithFilters(examId, subjectIds, years, questionType, topicIds, pageable)
         }
 
         val questionResponses = questionsPage.content.map { question ->
@@ -155,10 +167,16 @@ class QuestionService(
             throw ResourceNotFoundException("Topics not found with ids: $missingIds")
         }
 
+        val exam = request.examId?.let { examId ->
+            examRepository.findById(examId)
+                .orElseThrow { ResourceNotFoundException("Exam not found with id: $examId") }
+        }
+
         // Update question properties
         val updatedQuestion = question.copy(
             statement = request.statement,
             subject = subject,
+            exam = exam,
             year = request.year,
             questionType = request.questionType,
             isActive = request.isActive,
@@ -212,6 +230,13 @@ class QuestionService(
                     subjectId = topic.subject.id,
                     subjectName = topic.subject.name,
                     createdAt = topic.createdAt
+                )
+            },
+            exam = question.exam?.let { exam ->
+                ExamSummaryResponse(
+                    id = exam.id,
+                    name = exam.name,
+                    institution = exam.institution,
                 )
             },
             year = question.year,

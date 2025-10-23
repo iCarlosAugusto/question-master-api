@@ -1,12 +1,12 @@
 meta {
-  name: Create Subject
+  name: Get All Exams
   type: http
-  seq: 3
+  seq: 2
 }
 
-post {
-  url: {{url}}/subjects
-  body: json
+get {
+  url: {{url}}/exams
+  body: none
   auth: inherit
 }
 
@@ -16,6 +16,9 @@ headers {
 
 body:json {
   {
-    "name": "Matemática"
+    "name": "ENEM",
+    "slug": "enem",
+    "institution": "INEP",
+    "description": "Prova para entrar na faculdade"
   }
 }

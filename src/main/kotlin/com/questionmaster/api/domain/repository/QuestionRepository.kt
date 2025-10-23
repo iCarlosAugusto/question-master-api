@@ -16,9 +16,11 @@ interface QuestionRepository : JpaRepository<Question, UUID> {
     @Query("""
         SELECT DISTINCT q FROM Question q 
         LEFT JOIN FETCH q.subject 
+        LEFT JOIN FETCH q.exam
         LEFT JOIN FETCH q.topics 
         LEFT JOIN FETCH q.alternatives a
         WHERE q.isActive = true
+        AND q.exam.id = :examId
         AND (:#{#subjectIds.size()} = 0 OR q.subject.id IN :subjectIds)
         AND (:#{#years.size()} = 0 OR q.year IN :years)
         AND (:questionType IS NULL OR q.questionType = :questionType)
@@ -26,6 +28,7 @@ interface QuestionRepository : JpaRepository<Question, UUID> {
         ORDER BY q.createdAt DESC
     """)
     fun findQuestionsWithFilters(
+        @Param("examId") examId: Long,
         @Param("subjectIds") subjectIds: List<Long>,
         @Param("years") years: List<Short>,
         @Param("questionType") questionType: QuestionType?,
@@ -36,9 +39,11 @@ interface QuestionRepository : JpaRepository<Question, UUID> {
     @Query("""
         SELECT DISTINCT q FROM Question q 
         LEFT JOIN FETCH q.subject 
+        LEFT JOIN FETCH q.exam
         LEFT JOIN FETCH q.topics 
         LEFT JOIN FETCH q.alternatives a
         WHERE q.isActive = true
+        AND q.exam.id = :examId
         AND (:userId IS NULL OR (
             CASE 
                 WHEN :answerStatus = 'ANSWERED' THEN EXISTS (SELECT 1 FROM Answer ans WHERE ans.question.id = q.id AND ans.user.id = :userId)
@@ -51,6 +56,7 @@ interface QuestionRepository : JpaRepository<Question, UUID> {
         ORDER BY q.createdAt DESC
     """)
     fun findQuestionsWithUserStatus(
+        @Param("examId") examId: Long,
         @Param("userId") userId: UUID?,
         @Param("answerStatus") answerStatus: String?,
         pageable: Pageable
@@ -59,6 +65,7 @@ interface QuestionRepository : JpaRepository<Question, UUID> {
     @Query("""
         SELECT q FROM Question q 
         LEFT JOIN FETCH q.subject 
+        LEFT JOIN FETCH q.exam
         LEFT JOIN FETCH q.topics 
         LEFT JOIN FETCH q.alternatives 
         WHERE q.id = :id
