@@ -5,12 +5,6 @@
 -- the public.profiles table
 -- =============================================================================
 
--- -----------------------------------------------------------------------------
--- 1. Add email column to profiles table (useful for caching and queries)
--- -----------------------------------------------------------------------------
-ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS email VARCHAR(255);
-ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW();
-
 -- Create index on email for faster lookups
 CREATE INDEX IF NOT EXISTS idx_profiles_email ON public.profiles(email);
 
@@ -171,14 +165,6 @@ CREATE TRIGGER on_auth_user_deleted
 -- This ensures users can only access/modify their own profiles
 
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
-
--- Drop existing policies to avoid conflicts
--- DROP POLICY IF EXISTS "Users can view own profile" ON public.profiles;
--- DROP POLICY IF EXISTS "Users can update own profile" ON public.profiles;
--- DROP POLICY IF EXISTS "Service can insert profiles" ON public.profiles;
--- DROP POLICY IF EXISTS "Admins can view all profiles" ON public.profiles;
--- DROP POLICY IF EXISTS "Admins can update any profile" ON public.profiles;
--- DROP POLICY IF EXISTS "Admins can delete profiles" ON public.profiles;
 
 -- Policy: Users can view their own profile
 CREATE POLICY "Users can view own profile"

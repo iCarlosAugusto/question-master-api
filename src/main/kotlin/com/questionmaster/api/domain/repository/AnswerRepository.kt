@@ -14,7 +14,13 @@ interface AnswerRepository : JpaRepository<Answer, UUID> {
     fun findByUserId(userId: UUID): List<Answer>
     
     fun findByQuestionId(questionId: UUID): List<Answer>
-    
+
+    fun findTopByUserIdAndQuestionIdOrderByAnsweredAtDesc(
+        userId: UUID,
+        questionId: UUID
+    ): Answer?
+
+
     @Query("SELECT COUNT(a) FROM Answer a WHERE a.user.id = :userId AND a.isCorrect = true")
     fun countCorrectAnswersByUserId(@Param("userId") userId: UUID): Long
     

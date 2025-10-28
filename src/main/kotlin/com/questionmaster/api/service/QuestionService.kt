@@ -106,7 +106,7 @@ class QuestionService(
 
         val questionResponses = questionsPage.content.map { question ->
             val userAnswer = if (userId != null) {
-                answerRepository.findByUserIdAndQuestionId(userId, question.id)?.let { answer ->
+                answerRepository.findTopByUserIdAndQuestionIdOrderByAnsweredAtDesc(userId, question.id)?.let { answer ->
                     UserAnswerInfo(
                         answerId = answer.id,
                         chosenAlternativeId = answer.alternative.id,

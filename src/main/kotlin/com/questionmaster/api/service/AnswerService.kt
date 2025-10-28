@@ -38,11 +38,6 @@ class AnswerService(
             throw BusinessException("Alternative does not belong to this question")
         }
 
-        // Check if user has already answered this question
-        answerRepository.findByUserIdAndQuestionId(userId, questionId)?.let {
-            throw BusinessException("Question has already been answered by this user")
-        }
-
         // Find the correct alternative
         val correctAlternative = alternativeRepository.findCorrectAlternativeByQuestionId(questionId)
             ?: throw BusinessException("No correct alternative found for this question")

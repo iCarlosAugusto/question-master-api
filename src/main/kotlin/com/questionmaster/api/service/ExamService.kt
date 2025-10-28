@@ -5,7 +5,6 @@ import com.questionmaster.api.domain.dto.request.UpdateExamRequest
 import com.questionmaster.api.domain.dto.response.ExamResponse
 import com.questionmaster.api.domain.dto.response.ExamSummaryResponse
 import com.questionmaster.api.domain.entity.Exam
-import com.questionmaster.api.domain.enums.ExamType
 import com.questionmaster.api.domain.repository.ExamRepository
 import com.questionmaster.api.exception.ResourceNotFoundException
 import org.springframework.data.domain.Sort
@@ -27,12 +26,13 @@ class ExamService(
             ExamResponse(
                 id = exam.id,
                 name = exam.name,
+                slug = exam.slug,
                 institution = exam.institution,
                 description = exam.description,
                 isActive = exam.isActive,
                 createdAt = exam.createdAt,
                 updatedAt = exam.updatedAt,
-                questionCount = exam.questions.size
+                questionCount = exam.questions.size,
             )
         }
 
@@ -47,6 +47,7 @@ class ExamService(
         return ExamResponse(
             id = exam.id,
             name = exam.name,
+            slug = exam.slug,
             institution = exam.institution,
             description = exam.description,
             isActive = exam.isActive,
@@ -83,6 +84,7 @@ class ExamService(
         return ExamResponse(
             id = savedExam.id,
             name = savedExam.name,
+            slug = savedExam.slug,
             institution = savedExam.institution,
             description = savedExam.description,
             isActive = savedExam.isActive,
@@ -110,6 +112,7 @@ class ExamService(
         return ExamResponse(
             id = savedExam.id,
             name = savedExam.name,
+            slug = savedExam.slug,
             institution = savedExam.institution,
             description = savedExam.description,
             isActive = savedExam.isActive,
