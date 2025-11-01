@@ -16,7 +16,7 @@ class UserService(
 
     fun createUser(
         id: UUID, 
-        displayName: String? = null, 
+        displayName: String? = null,
         role: AppRole = AppRole.USER,
         email: String? = null
     ): User {

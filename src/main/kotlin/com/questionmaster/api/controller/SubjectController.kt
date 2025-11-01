@@ -21,19 +21,26 @@ class SubjectController(
 ) {
 
     @GetMapping
-    @Operation(summary = "Get all subjects", description = "Retrieve all subjects")
-    fun getAllSubjects(): ResponseEntity<List<SubjectResponse>> {
-        val subjects = subjectService.getAllSubjects()
+    @Operation(
+        summary = "Get subjects by exam", 
+        description = "Retrieve subjects filtered by exam slug. Requires examSlug query parameter."
+    )
+    fun getSubjectsByExam(
+        @RequestParam examSlug: String
+    ): ResponseEntity<List<SubjectResponse>> {
+        val subjects = subjectService.getSubjectsByExamSlug(examSlug)
         return ResponseEntity.ok(subjects)
     }
 
     @GetMapping("/with-topics")
     @Operation(
-        summary = "Get all subjects with topics", 
-        description = "Retrieve all subjects with their related topics"
+        summary = "Get subjects with topics by exam", 
+        description = "Retrieve subjects with their related topics filtered by exam slug. Requires examSlug query parameter."
     )
-    fun getAllSubjectsWithTopics(): ResponseEntity<SubjectsWithTopicsWrapper> {
-        val result = subjectService.getAllSubjectsWithTopics()
+    fun getSubjectsWithTopicsByExam(
+        @RequestParam examSlug: String
+    ): ResponseEntity<SubjectsWithTopicsWrapper> {
+        val result = subjectService.getSubjectsWithTopicsByExamSlug(examSlug)
         return ResponseEntity.ok(result)
     }
 

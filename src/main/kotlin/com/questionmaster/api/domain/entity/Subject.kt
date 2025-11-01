@@ -20,7 +20,11 @@ class Subject(
     val topics: MutableSet<Topic> = mutableSetOf(),
     
     @OneToMany(mappedBy = "subject", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    val questions: MutableSet<Question> = mutableSetOf()
+    val questions: MutableSet<Question> = mutableSetOf(),
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exam_id")
+    val exam: Exam? = null
 ) {
     // JPA requires a no-arg constructor
     constructor() : this(
@@ -33,14 +37,16 @@ class Subject(
         name: String = this.name,
         createdAt: LocalDateTime = this.createdAt,
         topics: MutableSet<Topic> = this.topics,
-        questions: MutableSet<Question> = this.questions
+        questions: MutableSet<Question> = this.questions,
+        exam: Exam? = this.exam
     ): Subject {
         return Subject(
             id = id,
             name = name,
             createdAt = createdAt,
             topics = topics,
-            questions = questions
+            questions = questions,
+            exam = exam
         )
     }
 }

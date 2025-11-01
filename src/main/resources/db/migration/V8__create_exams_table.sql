@@ -10,8 +10,9 @@ CREATE TABLE public.exams (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Create index for faster queries
-CREATE INDEX idx_exams_exam_type ON public.exams(exam_type);
-CREATE INDEX idx_exams_year ON public.exams(year);
+-- Create unique constraint for slug
+CREATE UNIQUE INDEX idx_exams_slug_unique ON public.exams(slug);
+
+-- Create indexes for faster queries
 CREATE INDEX idx_exams_institution ON public.exams(institution);
 CREATE INDEX idx_exams_is_active ON public.exams(is_active);

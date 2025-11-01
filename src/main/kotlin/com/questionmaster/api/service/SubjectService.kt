@@ -6,6 +6,7 @@ import com.questionmaster.api.domain.dto.response.SubjectWithTopicsResponse
 import com.questionmaster.api.domain.dto.response.SubjectsWithTopicsWrapper
 import com.questionmaster.api.domain.dto.response.TopicSummaryResponse
 import com.questionmaster.api.domain.entity.Subject
+import com.questionmaster.api.domain.repository.ExamRepository
 import com.questionmaster.api.domain.repository.SubjectRepository
 import com.questionmaster.api.exception.BusinessException
 import com.questionmaster.api.exception.ResourceNotFoundException
@@ -15,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class SubjectService(
-    private val subjectRepository: SubjectRepository
+    private val subjectRepository: SubjectRepository,
+    private val examRepository: ExamRepository
 ) {
 
     fun createSubject(request: CreateSubjectRequest): SubjectResponse {
@@ -24,7 +26,15 @@ class SubjectService(
             throw BusinessException("Subject with name '${request.name}' already exists")
         }
 
-        val subject = Subject(name = request.name)
+        val exam = request.examId?.let { examId ->
+            examRepository.findById(examId)
+                .orElseThrow { ResourceNotFoundException("Exam not found with id: $examId") }
+        }
+
+        val subject = Subject(
+            name = request.name,
+            exam = exam
+        )
         val savedSubject = subjectRepository.save(subject)
         return mapToResponse(savedSubject)
     }
@@ -36,8 +46,43 @@ class SubjectService(
     }
 
     @Transactional(readOnly = true)
+    fun getSubjectsByExamSlug(examSlug: String): List<SubjectResponse> {
+        // Validate exam exists
+        examRepository.findBySlug(examSlug).orElseThrow {
+            ResourceNotFoundException("Exam not found with slug: $examSlug")
+        }
+        
+        return subjectRepository.findAllByExamSlug(examSlug)
+            .map { mapToResponse(it) }
+    }
+
+    @Transactional(readOnly = true)
     fun getAllSubjectsWithTopics(): SubjectsWithTopicsWrapper {
         val subjects = subjectRepository.findAll()
+            .map { subject ->
+                SubjectWithTopicsResponse(
+                    id = subject.id,
+                    name = subject.name,
+                    topics = subject.topics.map { topic ->
+                        TopicSummaryResponse(
+                            id = topic.id,
+                            name = topic.name
+                        )
+                    }
+                )
+            }
+        
+        return SubjectsWithTopicsWrapper(subjects = subjects)
+    }
+
+    @Transactional(readOnly = true)
+    fun getSubjectsWithTopicsByExamSlug(examSlug: String): SubjectsWithTopicsWrapper {
+        // Validate exam exists
+        examRepository.findBySlug(examSlug).orElseThrow {
+            ResourceNotFoundException("Exam not found with slug: $examSlug")
+        }
+        
+        val subjects = subjectRepository.findAllByExamSlugWithTopics(examSlug)
             .map { subject ->
                 SubjectWithTopicsResponse(
                     id = subject.id,
@@ -65,14 +110,22 @@ class SubjectService(
         val subject = subjectRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Subject not found with id: $id") }
 
-        // Check if another subject with same name exists
+        // Check if another subject with same name exists (in the same exam if exam is provided)
         subjectRepository.findByNameIgnoreCase(request.name)?.let { existing ->
             if (existing.id != id) {
                 throw BusinessException("Subject with name '${request.name}' already exists")
             }
         }
 
-        val updatedSubject = subject.copy(name = request.name)
+        val exam = request.examId?.let { examId ->
+            examRepository.findById(examId)
+                .orElseThrow { ResourceNotFoundException("Exam not found with id: $examId") }
+        }
+
+        val updatedSubject = subject.copy(
+            name = request.name,
+            exam = exam
+        )
         val savedSubject = subjectRepository.save(updatedSubject)
         return mapToResponse(savedSubject)
     }

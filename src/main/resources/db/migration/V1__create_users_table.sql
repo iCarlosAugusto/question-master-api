@@ -6,5 +6,7 @@ CREATE TABLE public.profiles (
     id UUID PRIMARY KEY,
     role VARCHAR(20) NOT NULL DEFAULT 'USER',
     display_name TEXT,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    email VARCHAR(200) NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

@@ -223,15 +223,15 @@ class QuestionService(
                 name = question.subject.name,
                 createdAt = question.subject.createdAt
             ),
-            topics = question.topics.map { topic ->
-                TopicResponse(
-                    id = topic.id,
-                    name = topic.name,
-                    subjectId = topic.subject.id,
-                    subjectName = topic.subject.name,
-                    createdAt = topic.createdAt
-                )
-            },
+//            topics = question.topics.map { topic ->
+//                TopicResponse(
+//                    id = topic.id,
+//                    name = topic.name,
+//                    subjectId = topic.subject.id,
+//                    subjectName = topic.subject.name,
+//                    createdAt = topic.createdAt
+//                )
+//            },
             exam = question.exam?.let { exam ->
                 ExamSummaryResponse(
                     id = exam.id,

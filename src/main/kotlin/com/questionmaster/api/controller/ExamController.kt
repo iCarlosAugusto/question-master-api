@@ -6,12 +6,15 @@ import com.questionmaster.api.domain.dto.response.ExamResponse
 import com.questionmaster.api.domain.dto.response.ExamSummaryResponse
 import com.questionmaster.api.domain.dto.response.PagedResponse
 import com.questionmaster.api.domain.dto.response.QuestionResponse
+import com.questionmaster.api.domain.dto.response.SubjectResponse
+import com.questionmaster.api.domain.dto.response.SubjectsWithTopicsWrapper
 import com.questionmaster.api.domain.enums.ExamType
 import com.questionmaster.api.domain.enums.QuestionType
 import com.questionmaster.api.security.CurrentUser
 import com.questionmaster.api.security.CustomUserDetails
 import com.questionmaster.api.service.ExamService
 import com.questionmaster.api.service.QuestionService
+import com.questionmaster.api.service.SubjectService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -27,8 +30,30 @@ import org.springframework.web.bind.annotation.*
 class ExamController(
     private val examService: ExamService,
     private val questionService: QuestionService,
+    private val subjectService: SubjectService
 ) {
 
+    @GetMapping("/{examSlug}/subjects")
+    @Operation(
+        summary = "Get subjects by exam",
+        description = "Retrieve all subjects linked to a specific exam by slug"
+    )
+    fun getSubjectsByExam(@PathVariable examSlug: String): ResponseEntity<List<SubjectResponse>> {
+        val subjects = subjectService.getSubjectsByExamSlug(examSlug)
+        return ResponseEntity.ok(subjects)
+    }
+
+    @GetMapping("/{examSlug}/subjects/with-topics")
+    @Operation(
+        summary = "Get subjects with topics by exam",
+        description = "Retrieve subjects with their related topics filtered by exam slug. Requires examSlug query parameter."
+    )
+    fun getSubjectsWithTopicsByExam(
+        @PathVariable examSlug: String
+    ): ResponseEntity<SubjectsWithTopicsWrapper> {
+        val result = subjectService.getSubjectsWithTopicsByExamSlug(examSlug)
+        return ResponseEntity.ok(result)
+    }
 
     @GetMapping("/{examSlug}/questions")
     @Operation(

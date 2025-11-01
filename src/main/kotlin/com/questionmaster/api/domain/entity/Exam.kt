@@ -32,7 +32,10 @@ class Exam(
     val updatedAt: LocalDateTime = LocalDateTime.now(),
     
     @OneToMany(mappedBy = "exam", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    val questions: MutableSet<Question> = mutableSetOf()
+    val questions: MutableSet<Question> = mutableSetOf(),
+    
+    @OneToMany(mappedBy = "exam", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val subjects: MutableSet<Subject> = mutableSetOf()
 ) {
     // JPA requires a no-arg constructor
     constructor() : this(
@@ -48,7 +51,8 @@ class Exam(
         isActive: Boolean = this.isActive,
         createdAt: LocalDateTime = this.createdAt,
         updatedAt: LocalDateTime = this.updatedAt,
-        questions: MutableSet<Question> = this.questions
+        questions: MutableSet<Question> = this.questions,
+        subjects: MutableSet<Subject> = this.subjects
     ): Exam {
         return Exam(
             id = id,
@@ -59,7 +63,8 @@ class Exam(
             isActive = isActive,
             createdAt = createdAt,
             updatedAt = updatedAt,
-            questions = questions
+            questions = questions,
+            subjects = subjects
         )
     }
 }

@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: {{url}}/subjects/with-topics
+  url: {{url}}/subjects/with-topics?examSlug=enem
   body: none
   auth: inherit
+}
+
+params:query {
+  examSlug: enem
 }
 
 headers {

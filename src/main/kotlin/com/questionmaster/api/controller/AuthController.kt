@@ -60,8 +60,9 @@ class AuthController(
         
         val userId = UUID.randomUUID()
         val displayName = request.email.substringBefore("@")
+        val email = request.email;
         
-        val user = userService.createUser(userId, displayName, AppRole.USER)
+        val user = userService.createUser(userId, displayName, AppRole.USER, email)
         val token = jwtTokenProvider.generateToken(user.id, user.role, user.displayName)
         
         val authResponse = AuthResponse(
@@ -80,7 +81,7 @@ class AuthController(
         val userId = UUID.randomUUID()
         val displayName = request.email.substringBefore("@")
         
-        val user = userService.createUser(userId, displayName, AppRole.ADMIN)
+        val user = userService.createUser(userId, displayName, AppRole.ADMIN, request.email)
         val token = jwtTokenProvider.generateToken(user.id, user.role, user.displayName)
         
         val authResponse = AuthResponse(
