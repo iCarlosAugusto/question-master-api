@@ -7,6 +7,8 @@ import java.util.*
 data class QuestionResponse(
     val id: UUID,
     val statement: String,
+    val subject: SubjectResponse,
+    val topics: List<TopicResponse>,
     val exam: ExamSummaryResponse? = null,
     val year: Short? = null,
     val questionType: QuestionType,

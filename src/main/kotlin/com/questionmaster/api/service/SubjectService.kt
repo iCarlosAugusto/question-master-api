@@ -1,10 +1,12 @@
 package com.questionmaster.api.service
 
 import com.questionmaster.api.domain.dto.request.CreateSubjectRequest
+import com.questionmaster.api.domain.dto.response.ExamResponse
 import com.questionmaster.api.domain.dto.response.SubjectResponse
 import com.questionmaster.api.domain.dto.response.SubjectWithTopicsResponse
 import com.questionmaster.api.domain.dto.response.SubjectsWithTopicsWrapper
 import com.questionmaster.api.domain.dto.response.TopicSummaryResponse
+import com.questionmaster.api.domain.entity.Exam
 import com.questionmaster.api.domain.entity.Subject
 import com.questionmaster.api.domain.repository.ExamRepository
 import com.questionmaster.api.domain.repository.SubjectRepository
@@ -57,28 +59,8 @@ class SubjectService(
     }
 
     @Transactional(readOnly = true)
-    fun getAllSubjectsWithTopics(): SubjectsWithTopicsWrapper {
-        val subjects = subjectRepository.findAll()
-            .map { subject ->
-                SubjectWithTopicsResponse(
-                    id = subject.id,
-                    name = subject.name,
-                    topics = subject.topics.map { topic ->
-                        TopicSummaryResponse(
-                            id = topic.id,
-                            name = topic.name
-                        )
-                    }
-                )
-            }
-        
-        return SubjectsWithTopicsWrapper(subjects = subjects)
-    }
-
-    @Transactional(readOnly = true)
     fun getSubjectsWithTopicsByExamSlug(examSlug: String): SubjectsWithTopicsWrapper {
-        // Validate exam exists
-        examRepository.findBySlug(examSlug).orElseThrow {
+        val exam = examRepository.findBySlug(examSlug).orElseThrow {
             ResourceNotFoundException("Exam not found with slug: $examSlug")
         }
         
@@ -96,7 +78,10 @@ class SubjectService(
                 )
             }
         
-        return SubjectsWithTopicsWrapper(subjects = subjects)
+        return SubjectsWithTopicsWrapper(
+            subjects = subjects,
+            exam = mapToExamResponse(exam)
+        )
     }
 
     @Transactional(readOnly = true)
@@ -143,6 +128,20 @@ class SubjectService(
             name = subject.name,
             createdAt = subject.createdAt,
             topicsCount = subject.topics.size
+        )
+    }
+
+    private fun mapToExamResponse(exam: Exam): ExamResponse {
+        return ExamResponse(
+            id = exam.id,
+            name = exam.name,
+            slug = exam.slug,
+            createdAt = exam.createdAt,
+            institution = exam.institution,
+            description = exam.description,
+            isActive = exam.isActive,
+            updatedAt = exam.updatedAt,
+            questionCount = exam.questions.size,
         )
     }
 }
