@@ -1,26 +1,6 @@
 version: "3.8"
 
 services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: questionmaster-postgres
-    environment:
-      POSTGRES_DB: jdbc:postgresql://db.wxzoeompgaajxwfnxbos.supabase.co:5432/postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./init-db:/docker-entrypoint-initdb.d
-    networks:
-      - questionmaster-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U questionmaster -d questionmaster"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   api:
     build:
       context: .
@@ -28,23 +8,31 @@ services:
     container_name: questionmaster-api
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      DATABASE_URL: jdbc:postgresql://postgres:5432/questionmaster-dev
-      DATABASE_USERNAME: questionmaster
-      DATABASE_PASSWORD: questionmaster
-      JWT_SECRET: myVerySecretKeyThatIsLongEnoughForHmacSha256AlgorithmAndShouldBeChangedInProduction
+      DATABASE_URL: jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:5432/postgres?user=postgres.swzkcdgnahprrfzpfaoi&password=LeuY2TDZ6zreGbPp
+      DATABASE_USERNAME: postgres.swzkcdgnahprrfzpfaoi
+      DATABASE_PASSWORD: LeuY2TDZ6zreGbPp
+      JWT_SECRET: +zpR/X0Hgds89beVkgtFrnkqx8tzt0pJ/E0EE4emvHInj8XgHI8+AFR14eLzfoGBZ92vUe7TEwox6l8OCT8EMg==
       JWT_EXPIRATION: 86400000
-    ports:
-      - "8080:8080"
-    depends_on:
-      postgres:
-        condition: service_healthy
+    expose:
+      - "8080"
     networks:
       - questionmaster-network
     restart: unless-stopped
 
-volumes:
-  postgres_data:
-    driver: local
+  nginx:
+    image: nginx:alpine
+    container_name: questionmaster-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - api
+    networks:
+      - questionmaster-network
+    restart: unless-stopped
 
 networks:
   questionmaster-network:
