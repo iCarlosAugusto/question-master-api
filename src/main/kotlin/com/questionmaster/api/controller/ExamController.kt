@@ -12,9 +12,11 @@ import com.questionmaster.api.domain.enums.ExamType
 import com.questionmaster.api.domain.enums.QuestionType
 import com.questionmaster.api.security.CurrentUser
 import com.questionmaster.api.security.CustomUserDetails
+import com.questionmaster.api.service.EncryptionService
 import com.questionmaster.api.service.ExamService
 import com.questionmaster.api.service.QuestionService
 import com.questionmaster.api.service.SubjectService
+import com.questionmaster.api.domain.dto.response.EncryptedDataResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -30,7 +32,8 @@ import org.springframework.web.bind.annotation.*
 class ExamController(
     private val examService: ExamService,
     private val questionService: QuestionService,
-    private val subjectService: SubjectService
+    private val subjectService: SubjectService,
+    private val encryptionService: EncryptionService
 ) {
 
     @GetMapping("/{examSlug}/subjects")
@@ -57,8 +60,8 @@ class ExamController(
 
     @GetMapping("/{examSlug}/questions")
     @Operation(
-        summary = "Get questions with filters",
-        description = "Retrieve questions with optional filters and pagination. Supports multiple subjectIds, topicIds, and years. Requires X-Exam-Id header."
+        summary = "Get questions with filters (encrypted)",
+        description = "Retrieve questions with optional filters and pagination. Response is encrypted with AES-256-GCM. The client must decrypt the data using the encryption key."
     )
     fun getQuestions(
         @PathVariable examSlug: String,
@@ -70,7 +73,7 @@ class ExamController(
         @RequestParam(required = false) topicIds: List<Long>?,
         @RequestParam(required = false) answerStatus: String?,
         @CurrentUser userDetails: CustomUserDetails?
-    ): ResponseEntity<PagedResponse<QuestionResponse>> {
+    ): ResponseEntity<EncryptedDataResponse> {
         val userId = userDetails?.getId()
         val questions = questionService.getQuestions(
             examSlug = examSlug,
@@ -83,7 +86,9 @@ class ExamController(
             userId = userId,
             answerStatus = answerStatus
         )
-        return ResponseEntity.ok(questions)
+        val encryptedResponse = encryptionService.encrypt(questions)
+
+        return ResponseEntity.ok(encryptedResponse)
     }
     @GetMapping
     @Operation(

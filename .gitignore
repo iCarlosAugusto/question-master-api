@@ -71,9 +71,14 @@ out/
 # MacOS
 .DS_Store
 
-# Environment
+# Environment Variables
 .env
-.env.local
+.env
+.env.*.local
+*.env
+!*.env.example
+!.env.example
+!.env.local.example
 
 # Logs
 logs/
