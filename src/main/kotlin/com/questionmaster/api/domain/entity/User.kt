@@ -20,6 +20,9 @@ class User(
     
     @Column(name = "email")
     val email: String? = null,
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val userSubscriptions: MutableSet<UserSubscription> = mutableSetOf(),
     
     @Column(name = "created_at", nullable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
