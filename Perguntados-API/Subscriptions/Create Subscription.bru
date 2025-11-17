@@ -1,0 +1,31 @@
+meta {
+  name: Create Subscription
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/api/internal/user-subscriptions
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+  X-App-Key: cGVyc29ucGhvbmU2MjIwMDMhQGF1Z3VzdG9wYXNzd29yZA==
+}
+
+body:json {
+  {
+    "userId": "1fd4a1d4-328c-40d6-9ace-95746bafc522",
+    "examId": 1,
+    "plan": "plus",
+    "stripeCustomerId": "123",
+    "stripeSubscriptionId": "123"
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

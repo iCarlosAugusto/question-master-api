@@ -20,8 +20,8 @@ import java.util.UUID
 
 
 @RestController
-@RequestMapping("/api/user-subscriptions")
-class UserSubscriptionController(
+@RequestMapping("/api/internal/user-subscriptions")
+class UserSubscriptionsController(
     private val userSubscriptionService: UserSubscriptionService
 ) {
 

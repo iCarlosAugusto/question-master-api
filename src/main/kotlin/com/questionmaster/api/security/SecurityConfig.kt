@@ -22,7 +22,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 class SecurityConfig(
-    private val jwtAuthenticationFilter: JwtAuthenticationFilter
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter,
+    private val apiKeyAuthFilter: ApiKeyAuthFilter,
 ) {
 
     @Bean
@@ -56,6 +57,7 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.PUT, "/api/exams/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "/api/exams/**").hasRole("ADMIN")
 
+                    .requestMatchers("api/internal/**").permitAll()
                     // User and Admin endpoints
                     .requestMatchers("/api/answers/**").hasAnyRole("USER", "ADMIN")
                     
@@ -66,6 +68,7 @@ class SecurityConfig(
                 print(ex)
             }
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterAfter(apiKeyAuthFilter, JwtAuthenticationFilter::class.java)
 
         return http.build()
     }
