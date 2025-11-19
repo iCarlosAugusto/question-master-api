@@ -61,6 +61,40 @@ interface QuestionRepository : JpaRepository<Question, UUID> {
         @Param("answerStatus") answerStatus: String?,
         pageable: Pageable
     ): Page<Question>
+
+    @Query("""
+        SELECT DISTINCT q FROM Question q
+        LEFT JOIN FETCH q.subject
+        LEFT JOIN FETCH q.exam
+        LEFT JOIN FETCH q.topics
+        LEFT JOIN FETCH q.alternatives a
+        WHERE q.isActive = true
+        AND q.exam.id = :examId
+        AND (:#{#subjectIds.size()} = 0 OR q.subject.id IN :subjectIds)
+        AND (:#{#years.size()} = 0 OR q.year IN :years)
+        AND (:questionType IS NULL OR q.questionType = :questionType)
+        AND (:#{#topicIds.size()} = 0 OR EXISTS (SELECT 1 FROM q.topics t WHERE t.id IN :topicIds))
+        AND (:userId IS NULL OR (
+            CASE
+                WHEN :answerStatus = 'ANSWERED' THEN EXISTS (SELECT 1 FROM Answer ans WHERE ans.question.id = q.id AND ans.user.id = :userId)
+                WHEN :answerStatus = 'UNANSWERED' THEN NOT EXISTS (SELECT 1 FROM Answer ans WHERE ans.question.id = q.id AND ans.user.id = :userId)
+                WHEN :answerStatus = 'CORRECT' THEN EXISTS (SELECT 1 FROM Answer ans WHERE ans.question.id = q.id AND ans.user.id = :userId AND ans.isCorrect = true)
+                WHEN :answerStatus = 'INCORRECT' THEN EXISTS (SELECT 1 FROM Answer ans WHERE ans.question.id = q.id AND ans.user.id = :userId AND ans.isCorrect = false)
+                ELSE true
+            END
+        ))
+        ORDER BY q.createdAt DESC
+    """)
+    fun findQuestionsWithFiltersAndUserStatus(
+        @Param("examId") examId: Long,
+        @Param("subjectIds") subjectIds: List<Long>,
+        @Param("years") years: List<Short>,
+        @Param("questionType") questionType: QuestionType?,
+        @Param("topicIds") topicIds: List<Long>,
+        @Param("userId") userId: UUID?,
+        @Param("answerStatus") answerStatus: String?,
+        pageable: Pageable
+    ): Page<Question>
     
     @Query("""
         SELECT q FROM Question q 

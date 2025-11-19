@@ -98,24 +98,36 @@ class QuestionService(
         }
         val examId = exam.id;
 
-        val questionsPage = if (userId != null && answerStatus != null) {
-            questionRepository.findQuestionsWithUserStatus(examId, userId, answerStatus, pageable)
+        val questionsPage = if (answerStatus != null) {
+            questionRepository.findQuestionsWithFiltersAndUserStatus(
+                examId,
+                subjectIds,
+                years,
+                questionType,
+                topicIds,
+                userId,
+                answerStatus,
+                pageable
+            )
         } else {
             questionRepository.findQuestionsWithFilters(examId, subjectIds, years, questionType, topicIds, pageable)
         }
 
-        val questionResponses = questionsPage.content.map { question ->
-            val userAnswer = if (userId != null) {
-                answerRepository.findTopByUserIdAndQuestionIdOrderByAnsweredAtDesc(userId, question.id)?.let { answer ->
-                    UserAnswerInfo(
-                        answerId = answer.id,
-                        chosenAlternativeId = answer.alternative.id,
-                        isCorrect = answer.isCorrect,
-                        answeredAt = answer.answeredAt
-                    )
-                }
-            } else null
+        val latestAnswersByQuestionId = if (userId != null && questionsPage.content.isNotEmpty()) {
+            val questionIds = questionsPage.content.map { it.id }
+            answerRepository.findLatestAnswersForQuestions(userId, questionIds)
+                .associateBy { it.question.id }
+        } else emptyMap()
 
+        val questionResponses = questionsPage.content.map { question ->
+            val userAnswer = latestAnswersByQuestionId[question.id]?.let { answer ->
+                UserAnswerInfo(
+                    answerId = answer.id,
+                    chosenAlternativeId = answer.alternative.id,
+                    isCorrect = answer.isCorrect,
+                    answeredAt = answer.answeredAt
+                )
+            }
             mapToResponse(question, userAnswer)
         }
 
@@ -210,7 +222,7 @@ class QuestionService(
     fun deleteQuestion(id: UUID) {
         val question = questionRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Question not found with id: $id") }
-        
+
         questionRepository.delete(question)
     }
 

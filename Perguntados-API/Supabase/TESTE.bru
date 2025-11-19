@@ -1,0 +1,25 @@
+meta {
+  name: TESTE
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://swzkcdgnahprrfzpfaoi.supabase.co/rest/v1/questions?select=id
+  body: none
+  auth: inherit
+}
+
+params:query {
+  select: id
+}
+
+headers {
+  apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN3emtjZGduYWhwcnJmenBmYW9pIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDg2NDY0MSwiZXhwIjoyMDc2NDQwNjQxfQ.9XHpV9n1JjVJ56eJCQ41att8NadDWGU34YaLZd93_yU
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN3emtjZGduYWhwcnJmenBmYW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4NjQ2NDEsImV4cCI6MjA3NjQ0MDY0MX0.hAbajlwxUsTmmFGmXL2gQmwZLPeYDUorqRcnCX5H0Gg
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

@@ -1,0 +1,24 @@
+meta {
+  name: Query Subscription
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://swzkcdgnahprrfzpfaoi.supabase.co/rest/v1/questions?select=id
+  body: none
+  auth: inherit
+}
+
+params:query {
+  select: id
+}
+
+headers {
+  apiKey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN3emtjZGduYWhwcnJmenBmYW9pIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDg2NDY0MSwiZXhwIjoyMDc2NDQwNjQxfQ.9XHpV9n1JjVJ56eJCQ41att8NadDWGU34YaLZd93_yU
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

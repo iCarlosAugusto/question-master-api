@@ -1,0 +1,24 @@
+meta {
+  name: teste 2
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://swzkcdgnahprrfzpfaoi.supabase.co/rest/v1/profiles?select=id
+  body: none
+  auth: inherit
+}
+
+params:query {
+  select: id
+}
+
+headers {
+  apikey: sb_secret_JsCODarF0rTVpPvDDb-gEQ_m9USyTDZ
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
