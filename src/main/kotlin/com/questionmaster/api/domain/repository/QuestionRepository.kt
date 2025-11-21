@@ -63,27 +63,60 @@ interface QuestionRepository : JpaRepository<Question, UUID> {
     ): Page<Question>
 
     @Query("""
-        SELECT DISTINCT q FROM Question q
-        LEFT JOIN FETCH q.subject
-        LEFT JOIN FETCH q.exam
-        LEFT JOIN FETCH q.topics
-        LEFT JOIN FETCH q.alternatives a
-        WHERE q.isActive = true
-        AND q.exam.id = :examId
-        AND (:#{#subjectIds.size()} = 0 OR q.subject.id IN :subjectIds)
-        AND (:#{#years.size()} = 0 OR q.year IN :years)
-        AND (:questionType IS NULL OR q.questionType = :questionType)
-        AND (:#{#topicIds.size()} = 0 OR EXISTS (SELECT 1 FROM q.topics t WHERE t.id IN :topicIds))
-        AND (:userId IS NULL OR (
-            CASE
-                WHEN :answerStatus = 'ANSWERED' THEN EXISTS (SELECT 1 FROM Answer ans WHERE ans.question.id = q.id AND ans.user.id = :userId)
-                WHEN :answerStatus = 'UNANSWERED' THEN NOT EXISTS (SELECT 1 FROM Answer ans WHERE ans.question.id = q.id AND ans.user.id = :userId)
-                WHEN :answerStatus = 'CORRECT' THEN EXISTS (SELECT 1 FROM Answer ans WHERE ans.question.id = q.id AND ans.user.id = :userId AND ans.isCorrect = true)
-                WHEN :answerStatus = 'INCORRECT' THEN EXISTS (SELECT 1 FROM Answer ans WHERE ans.question.id = q.id AND ans.user.id = :userId AND ans.isCorrect = false)
-                ELSE true
-            END
-        ))
-        ORDER BY q.createdAt DESC
+SELECT DISTINCT q FROM Question q
+LEFT JOIN FETCH q.subject
+LEFT JOIN FETCH q.exam
+LEFT JOIN FETCH q.topics
+LEFT JOIN FETCH q.alternatives a
+WHERE q.isActive = true
+  AND q.exam.id = :examId
+  AND (:#{#subjectIds.size()} = 0 OR q.subject.id IN :subjectIds)
+  AND (:#{#years.size()} = 0 OR q.year IN :years)
+  AND (:questionType IS NULL OR q.questionType = :questionType)
+  AND (:#{#topicIds.size()} = 0 OR EXISTS (SELECT 1 FROM q.topics t WHERE t.id IN :topicIds))
+  AND (:userId IS NULL OR (
+    CASE
+      WHEN :answerStatus = 'ANSWERED' THEN EXISTS (
+        SELECT 1 FROM Answer ans
+        WHERE ans.question.id = q.id
+          AND ans.user.id = :userId
+          AND ans.answeredAt = (
+            SELECT MAX(a2.answeredAt) FROM Answer a2
+            WHERE a2.question.id = q.id
+              AND a2.user.id = :userId
+          )
+      )
+      WHEN :answerStatus = 'UNANSWERED' THEN NOT EXISTS (
+        SELECT 1 FROM Answer ans
+        WHERE ans.question.id = q.id
+          AND ans.user.id = :userId
+      )
+      WHEN :answerStatus = 'CORRECT' THEN EXISTS (
+        SELECT 1 FROM Answer ans
+        WHERE ans.question.id = q.id
+          AND ans.user.id = :userId
+          AND ans.isCorrect = true
+          AND ans.answeredAt = (
+            SELECT MAX(a2.answeredAt) FROM Answer a2
+            WHERE a2.question.id = q.id
+              AND a2.user.id = :userId
+          )
+      )
+      WHEN :answerStatus = 'INCORRECT' THEN EXISTS (
+        SELECT 1 FROM Answer ans
+        WHERE ans.question.id = q.id
+          AND ans.user.id = :userId
+          AND ans.isCorrect = false
+          AND ans.answeredAt = (
+            SELECT MAX(a2.answeredAt) FROM Answer a2
+            WHERE a2.question.id = q.id
+              AND a2.user.id = :userId
+          )
+      )
+      ELSE true
+    END
+  ))
+ORDER BY q.createdAt DESC
     """)
     fun findQuestionsWithFiltersAndUserStatus(
         @Param("examId") examId: Long,
